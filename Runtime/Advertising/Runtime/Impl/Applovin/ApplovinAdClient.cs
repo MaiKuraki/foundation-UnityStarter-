@@ -13,7 +13,6 @@ namespace Pancake.Monetization
         private ApplovinBannerLoader _banner;
         private ApplovinInterstitialLoader _interstitial;
         private ApplovinRewardedLoader _rewarded;
-        private ApplovinRewardedInterstitialLoader _rewardedInterstitial;
         private ApplovinAppOpenLoader _appOpen;
         private static ApplovinAdClient client;
         private bool _isBannerDestroyed;
@@ -192,7 +191,6 @@ namespace Pancake.Monetization
             _banner = new ApplovinBannerLoader(this);
             _interstitial = new ApplovinInterstitialLoader(this);
             _rewarded = new ApplovinRewardedLoader(this);
-            _rewardedInterstitial = new ApplovinRewardedInterstitialLoader(this);
             _appOpen = new ApplovinAppOpenLoader(this);
 
             LoadInterstitialAd();
@@ -286,34 +284,6 @@ namespace Pancake.Monetization
 #if PANCAKE_MAX_ENABLE
             if (string.IsNullOrEmpty(AdSettings.MaxSettings.RewardedAdUnit.Id)) return false;
             return MaxSdk.IsRewardedAdReady(AdSettings.MaxSettings.RewardedAdUnit.Id);
-#else
-            return false;
-#endif
-        }
-
-        protected override void InternalLoadRewardedInterstitialAd()
-        {
-#if PANCAKE_MAX_ENABLE
-            if (string.IsNullOrEmpty(AdSettings.MaxSettings.RewardedInterstitialAdUnit.Id)) return;
-            MaxSdk.LoadRewardedInterstitialAd(AdSettings.MaxSettings.RewardedInterstitialAdUnit.Id);
-#endif
-        }
-
-        protected override void InternalShowRewardedInterstitialAd()
-        {
-#if PANCAKE_MAX_ENABLE
-            if (string.IsNullOrEmpty(AdSettings.MaxSettings.RewardedInterstitialAdUnit.Id)) return;
-            _isRewardedInterstitialCompleted = false;
-            R.isShowingAd = true;
-            MaxSdk.ShowRewardedInterstitialAd(AdSettings.MaxSettings.RewardedInterstitialAdUnit.Id);
-#endif
-        }
-
-        protected override bool InternalIsRewardedInterstitialAdReady()
-        {
-#if PANCAKE_MAX_ENABLE
-            if (string.IsNullOrEmpty(AdSettings.MaxSettings.RewardedInterstitialAdUnit.Id)) return false;
-            return MaxSdk.IsRewardedInterstitialAdReady(AdSettings.MaxSettings.RewardedInterstitialAdUnit.Id);
 #else
             return false;
 #endif
